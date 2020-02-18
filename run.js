@@ -34,7 +34,7 @@ async function handle_site(sites){
   site = sites.shift()
   parser = new rss();
   feed = await parser.parseURL(site);
-  return  "<hr><br>"+feed.title + "<br><hr>\n" + handle_feed(feed.items) + handle_site(sites)
+  return  "<hr><br>"+feed.title + "<br><hr>\n" + handle_feed(feed.items) + await handle_site(sites)
 }
 
 function handle_feed(items){
@@ -44,7 +44,7 @@ function handle_feed(items){
   var item = items.shift();
   var diff =start-Date.parse(item.pubDate); 
   if(diff < config.timeLag){
-      return "<a href=" + item.link +">"+item.title+"</a><br>\n" + item.content + "\n<hr>\n" + handle_feed(items);
+      return "<a href=" + item.link +">"+item.title+"</a><br><hr>\n" + handle_feed(items);
   }
   return handle_feed(items);
 }
